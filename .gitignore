@@ -57,7 +57,7 @@ build/
 *my*/*
 
 # Don't commit database dump files accidentally
-*.tar
+#*.tar
 *.sql
 *.dump
 
