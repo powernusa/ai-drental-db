@@ -1,0 +1,76 @@
+###########################
+# MacOS system files
+###########################
+.DS_Store
+.AppleDouble
+.LSOverride
+
+###########################
+# Python general
+###########################
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.pkl
+*.egg-info/
+*.spec
+
+###########################
+# Virtual environments
+###########################
+venv/
+.env/
+*.venv/
+env*/
+.sql_venv*/
+resumevenv*/
+resumevenv_*/
+
+###########################
+# Jupyter Notebooks
+###########################
+.ipynb_checkpoints/
+*.ipynb_save
+*.ipynb.tmp
+
+###########################
+# Docker & Compose
+###########################
+# Local DB volume directories (if created accidentally)
+
+data/
+pgdata/
+postgres_data/
+
+# If Docker outputs build cache locally
+docker-build/
+build/
+
+###########################
+# Project-specific ignores
+###########################
+# working folders
+*my_gist*/*
+*temp*/*
+*my*/*
+
+# Don't commit database dump files accidentally
+*.tar
+*.sql
+*.dump
+
+###########################
+# VS Code / Editors
+###########################
+.vscode/
+.idea/
+*.swp
+*.swo
+
+###########################
+# Logs
+###########################
+*.log
+logs/

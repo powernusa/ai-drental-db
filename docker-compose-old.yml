@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: drental-docker
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ai_rental_db
+    ports:
+      - "5450:5432"
+    volumes:
+      - drental_pgdata:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
+    restart: always
+
+  analytics:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: drental-analytics
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/ai_rental_db
+    command: ["sleep", "infinity"]
+
+volumes:
+  drental_pgdata:

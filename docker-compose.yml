@@ -1,0 +1,60 @@
+services:
+  # ----------------------------------------------------
+  # PostgreSQL DATABASE (main service)
+  # ----------------------------------------------------
+  postgres:
+    image: postgres:17
+    container_name: drental-docker
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ai_rental_db
+    ports:
+      - "5450:5432" # host_port:container_port
+    volumes:
+      - drental_pgdata:/var/lib/postgresql/data
+      - ./my_db/init:/docker-entrypoint-initdb.d
+    restart: always
+
+  # ----------------------------------------------------
+  # ANALYTICS SERVICE (Python environment in Docker)
+  # ----------------------------------------------------
+  analytics:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: drental-analytics
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    ports:
+      - "8888:8888" # expose Jupyter Notebook
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/ai_rental_db
+    command: >
+      jupyter notebook
+      --ip=0.0.0.0
+      --port=8888
+      --no-browser
+      --allow-root
+
+  # ----------------------------------------------------
+  # CLEANUP SERVICE — runs once, deletes local ./db/
+  # ----------------------------------------------------
+  cleanup:
+    image: alpine
+    container_name: drental_cleanup
+    depends_on:
+      - analytics # run after all services initialize
+    volumes:
+      - .:/app
+    working_dir: /app
+    entrypoint: ["/bin/sh", "-c", "./cleanup.sh"]
+    restart: "no"
+
+# ----------------------------------------------------
+# DOCKER VOLUME TO STORE DATABASE FILES
+# ----------------------------------------------------
+volumes:
+  drental_pgdata:
