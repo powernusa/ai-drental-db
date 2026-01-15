@@ -1,92 +1,112 @@
-# AI Rental DB
+# 🎬 AI-DRental-DB
 
-**Dockerized PostgreSQL + Analytics Environment for KPI Computation**
-**Target Completion Date: 31 January 2026**
+**End-to-End, Data-First Analytics Application**
 
-AI Rental DB is a self-contained, dockerized analytics environment built to support KPI computation for a synthetic DVD-Rental–style business dataset. It demonstrates strong skills in:
+**Target Completion Date:** **31 January 2026**
 
-- SQL modeling
-- Dockerized analytics workflows
-- Python-based KPI calculations
-- Database restoration automation
-- Preparation for a future AI-powered data analysis stack
+AI-DRental-DB is an end-to-end, data-first analytics application built on a synthetic DVD-rental–style dataset.  
+The project emphasizes **correct metric definition before visualization**, production-style separation of concerns, and full reproducibility using Docker.
 
-This project forms part of a larger portfolio showcasing end-to-end data intelligence engineering capabilities.
+This repository represents the **engineering backbone** behind the interactive analytics showcased on my portfolio site.
 
 ---
 
-## Overview
+## Core Design Philosophy
 
-The system consists of two coordinated services:
+This project is built with a **data-first mindset**:
 
-### **1. PostgreSQL (Dockerized)**
+- Metrics are **defined, validated, and sanity-checked in notebooks**
+- Business logic is **locked before any frontend visualization**
+- APIs expose only **trusted, pre-validated data**
+- The frontend visualizes **what the data supports — nothing more**
 
-- Automatically restored from a full `.tar` database dump
+In particular, multiple revenue definitions are evaluated in notebooks (staff-centric vs customer-centric), and **staff-centric revenue** is intentionally selected once supported by the data. That definition then becomes the **single source of truth** exposed to the application.
+
+---
+
+## Architecture Overview
+
+The system is composed of **clearly separated layers**, mirroring real production analytics systems.
+
+### 1️⃣ Dockerized PostgreSQL (Data Layer)
+
+- Restored automatically from a full `.tar` database dump
 - Runs inside an isolated Docker container
 - Uses persistent Docker volumes
-- Provides a clean, reproducible data environment for KPI analytics
+- Guarantees a clean, reproducible data environment
 
-### **2. Analytics Container (Python + SQLAlchemy)**
+### 2️⃣ Analytics Layer (Notebook Source of Truth)
 
-- Runs Jupyter Notebook inside Docker
-- Designed for SQL and Pandas-based KPI analysis
-- Connects to the internal Postgres service through a dedicated bridge network
-- Contains the full analytics environment (requirements installed on build)
+- Python + SQLAlchemy + Pandas
+- KPI computation and validation notebooks
+- Metric definitions finalized here before being exposed elsewhere
 
-This separation provides production-style modularity:
-**database layer ≠ analytics layer**.
+### 3️⃣ API Layer (Django Backend)
 
----
+- Django-based backend exposing validated metrics via REST-style APIs
+- Acts as a strict contract between analytics and frontend
+- Ensures:
+  - Business logic and metric definitions live on the server
+  - Frontend consumes only trusted, pre-computed data
+  - Metrics are never redefined or recomputed in the UI layer
 
-## Key Features
+### 4️⃣ Frontend (Visualization Layer)
 
-### **Automated Database Initialization**
-
-On first startup, Docker automatically restores the rental database using a scripted initialization process. This ensures reproducibility across machines.
-
-### **Reproducible Python Analytics**
-
-The analytics container includes:
-
-- SQLAlchemy connection setup
-- KPI notebooks
-- Matplotlib, Pandas, NumPy
-- Local configuration through `config_local_docker.py`
-
-You can run KPI notebooks without needing a local Python environment.
-
-### **Local Development Workflow**
-
-The project supports both:
-
-- **Option A — Running Jupyter inside Docker**, exposing port `8888`
-- **Option B — Running analytics on your local machine**, connecting to Postgres in Docker
-
-The repository is configured for strict reproducibility regardless of platform.
+- **D3.js** for data-driven rendering
+- **GSAP** for controlled, purposeful animation
+- **Vite** for fast, clean bundling
+- Visualizes only API-approved metrics
 
 ---
 
-## Usage
+## What This Project Demonstrates
 
-### **Build and Start Everything**
+- Advanced SQL modeling and analytical reasoning
+- KPI definition, validation, and metric governance
+- **Django API backend design for analytics delivery**
+- Production-style Docker workflows
+- Clear separation between data, backend logic, and presentation
+- Readiness for future AI-assisted analytics agents
+
+---
+
+## How to Run the Project
+
+### 🔧 Build and Start All Services
 
 ```bash
 docker compose up --build
 ```
 
-### **Stop Everything**
+This will:
+
+- Restore the PostgreSQL database automatically
+- Start the analytics and backend services
+- Prepare the environment for KPI computation
+
+---
+
+### 🛑 Stop All Services
 
 ```bash
 docker compose down
 ```
 
-### **Remove All Containers + Volumes (Fresh Reset)**
+---
+
+### ♻️ Full Reset (Remove Containers + Volumes)
 
 ```bash
 docker compose down --volumes
 ```
 
-### **Launch Jupyter Notebook From Analytics Container**
+Use this if you want a **fresh database restore**.
+
+---
+
+## Accessing the Analytics Environment
+
+### 📓 Launch Jupyter Notebook (Inside Docker)
 
 ```bash
 docker exec -it drental-analytics bash
@@ -99,17 +119,19 @@ Then open:
 http://localhost:8888
 ```
 
+No local Python setup is required.
+
 ---
 
-## Database Connection
+## Database Connection Strings
 
-### **From Local Machine**
+### From Local Machine
 
 ```
 postgresql://postgres:postgres@localhost:5450/ai_rental_db
 ```
 
-### **From Inside the Analytics Container**
+### From Inside Docker Network
 
 ```bash
 psql -h postgres -U postgres -d ai_rental_db
@@ -119,34 +141,20 @@ psql -h postgres -U postgres -d ai_rental_db
 
 ## KPIs Included (Ongoing)
 
-The project includes a growing collection of notebooks demonstrating:
-
-- Top 10 customers by spending
-- Revenue-based film rankings
-- Month-over-month rental activity
-- Store-level comparisons
-- Customer activity segmentation
-
-Additional KPIs will be implemented prior to the project’s target completion date.
+- Top customers by spending
+- Revenue-ranked films
+- Store-level revenue comparisons
+- Monthly trends and activity
 
 ---
 
 ## Purpose
 
-AI Rental DB showcases my ability to:
+This repository serves as a **core portfolio project** demonstrating my ability to:
 
-- Structure real analytics environments with Docker
-- Restore and manage SQL databases in containerized environments
-- Build KPI computation pipelines using SQL + Python
-- Prepare data systems for future integration with AI-driven agents
-
-This project is designed as a core component of my **Data Analyst / Data Intelligence Engineer** portfolio.
-
----
-
-## Status
-
-**Active development.**
-Final version expected 31 January 2026.
-
----
+- Design **end-to-end analytics applications**, from raw data modeling to interactive visualization
+- Define, validate, and lock **business metrics** before exposing them downstream
+- Build **reproducible, production-style data environments** using Docker and PostgreSQL
+- Deliver analytics through a **Django API backend**, enforcing a clean contract between data and UI
+- Integrate **notebook-driven analysis → backend APIs → frontend visualization** as a single system
+- **Implement AI agents directly on top of validated APIs**, enabling natural-language querying
