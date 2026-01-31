@@ -9,6 +9,8 @@ The project emphasizes **correct metric definition before visualization**, produ
 
 This repository represents the **engineering backbone** behind the interactive analytics showcased on my portfolio site.
 
+<a href="https://mydataaijournal.com/ai-rental-db/">Link to project</a>
+
 ---
 
 ## Core Design Philosophy
@@ -21,8 +23,6 @@ This project is built with a **data-first mindset**:
 - The frontend visualizes **what the data supports — nothing more**
 
 In particular, multiple revenue definitions are evaluated in notebooks (staff-centric vs customer-centric), and **staff-centric revenue** is intentionally selected once supported by the data. That definition then becomes the **single source of truth** exposed to the application.
-
-## <a href="https://mydataaijournal.com/ai-rental-db/">Link to project</a>
 
 ## Architecture Overview
 
