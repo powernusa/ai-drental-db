@@ -22,7 +22,7 @@ This project is built with a **data-first mindset**:
 
 In particular, multiple revenue definitions are evaluated in notebooks (staff-centric vs customer-centric), and **staff-centric revenue** is intentionally selected once supported by the data. That definition then becomes the **single source of truth** exposed to the application.
 
----
+## <a href="https://mydataaijournal.com/ai-rental-db/">Link to project</a>
 
 ## Architecture Overview
 
